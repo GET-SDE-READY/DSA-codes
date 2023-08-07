@@ -1,0 +1,205 @@
+https://leetcode.com/problems/subarray-sum-equals-k/
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+       map<int, int> mp;
+        int n = nums.size();
+		mp[0] = 1;
+		int sum = 0;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			sum += nums[i];
+
+			if (mp.find(sum - k) != mp.end()) {
+				 ans  += mp[sum-k];  
+			}
+			mp[sum]++;
+		}
+
+		return  ans ;
+        
+    }
+};
+
+https://leetcode.com/problems/valid-anagram/
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        
+       int c1[256]={0};
+       int c2[256]={0};
+       
+       if(s.length()!=t.length()) return false;
+        
+        
+       for(auto a:s){
+         c1[a]++;
+       }
+       for(auto a:t){
+         c2[a]++;
+       } 
+        for(int i=0;i<256;i++){
+            if(c1[i]!=c2[i]) return false;
+        }
+        
+        
+        return true;
+        
+        
+    }
+};
+
+https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
+
+class Solution{
+    public:
+    int maxLen(vector<int>&A, int n)
+    {   
+        // Your code here
+        
+        
+        
+
+        
+        
+        
+        
+        unordered_map<int,int> mp;
+        int pre = 0;
+        int ans = 0;
+  
+        mp[0] = -1;
+        
+        
+        
+        for(int i=0;i<n;i++){
+           pre += A[i];
+           
+           if(mp.find(pre) == mp.end()){
+               
+               // that means pre is not present 
+               
+               mp[pre] = i;
+           }
+           
+           if(mp.find(pre) != mp.end()){
+               int sz = i - mp[pre];
+               ans = max(ans , sz);
+           }
+           
+           
+        }
+        
+        return ans;
+        
+    }
+};
+
+https://leetcode.com/problems/valid-sudoku/
+
+class Solution {
+public:
+    bool isValidRow(int r , vector<vector<char>>& board){
+        
+        map<int,int> mp;
+        for(int i=0;i<9;i++){
+            if(board[r][i]>='1' && board[r][i]<='9'){
+                if(mp[board[r][i]] > 0) return false;
+                mp[board[r][i]]++;
+            }
+            else if(board[r][i] == '.'){
+                
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+        
+    }
+    bool isValidCol(int c , vector<vector<char>>& board){
+        
+        map<int,int> mp;
+        for(int i=0;i<9;i++){
+            if(board[i][c]>='1' && board[i][c]<='9'){
+                if(mp[board[i][c]] > 0) return false;
+                mp[board[i][c]]++;
+            }
+            else if(board[i][c] == '.'){
+                
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+        
+    }
+     bool isValidBox(int x , int y , vector<vector<char>>& board){
+        
+        map<int,int> mp;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(board[x+i][y+j]>='1' && board[x+i][y+j]<='9'){
+                    if(mp[board[x+i][y+j]] > 0) return false;
+                    mp[board[x+i][y+j]]++;
+                }
+                else if(board[x+i][y+j] == '.'){
+
+                }
+                else{
+                    return false;
+                }                
+            }
+        }
+        return true;
+        
+    }
+    bool isValidSudoku(vector<vector<char>>& board) {
+        bool ans = true;
+        for(int i=0;i<9;i++){
+            ans = ans & isValidRow(i,board);
+            ans = ans & isValidCol(i,board);
+        }
+        for(int i=0;i<9;i=i+3){
+            for(int j=0;j<9;j=j+3){
+                ans = ans & isValidBox(i,j,board);
+            }
+        }
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/longest-consecutive-sequence/
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n = nums.size();
+        map<int,int> mp;
+        for(int i=0;i<n;i++){
+            mp[nums[i]] = 1;
+        }
+        int temp = 0, ans = 0;
+        for(int i=0;i<n;i++){
+            int num = nums[i];
+            if(mp.find(num-1) != mp.end()){
+                
+            }
+            else{
+                temp=0;
+                while(mp.find(num) != mp.end() ){
+                    temp++;
+                    num++;
+                    ans = max(ans,temp);
+                }
+            }
+        }
+        
+        
+        return ans;
+        
+    }
+};
